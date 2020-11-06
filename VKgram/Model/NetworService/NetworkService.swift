@@ -63,6 +63,8 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                 debugPrint(error?.localizedDescription ?? "Response Error")
                 return }
             
+            DispatchQueue.global(qos: .userInitiated).async {
+            
             do {
                 
                 let result = try decoder.decode(UserInfoWelcome.self, from: dataResponse)
@@ -72,6 +74,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             } catch (let error) {
                 
                 completion(nil, error)
+            }
             }
         }
         
@@ -141,6 +144,8 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                    guard let dataResponse = data, error == nil else {
                        debugPrint(error?.localizedDescription ?? "Response Error")
                        return }
+            
+            DispatchQueue.global(qos: .userInitiated).async {
                    
                    do {
                        
@@ -152,6 +157,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                        
                        callback(nil, error)
                    }
+            }
                }
                
                task.resume()
@@ -220,6 +226,8 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                    guard let dataResponse = data, error == nil else {
                        debugPrint(error?.localizedDescription ?? "Response Error")
                        return }
+            
+            DispatchQueue.global(qos: .userInitiated).async {
                    
                    do {
                        
@@ -231,6 +239,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                        
                        callback(nil, error)
                    }
+            }
                }
                
                task.resume()
@@ -239,7 +248,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
   
 
 
-    func getNewsFeedItems(callback: @escaping (Welcome?, Error?) -> Void) {
+    func getNewsFeedItems(callback: @escaping (Welcome?, Error?) -> Void) { // 1. Создать сервис для получения ленты новостей из ВК.
         
         guard let token = Session.shared.token else { return }
         
@@ -252,7 +261,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         urlConstructor.host = API.host
         urlConstructor.path = API.getNewsFeed
         urlConstructor.queryItems = [
-            URLQueryItem(name: "filters", value: "post, photo"),
+            URLQueryItem(name: "filters", value: "post, photo"), // 2. Добавить запрос для получения новостей типа post. 4. *Добавить запрос для получения новостей типа photo
             URLQueryItem(name: "count", value: "50"),
             URLQueryItem(name: "access_token", value: "\(token)"),
             URLQueryItem(name: "v", value: API.version)
@@ -270,6 +279,8 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                    guard let dataResponse = data, error == nil else {
                        debugPrint(error?.localizedDescription ?? "Response Error")
                        return }
+            
+            DispatchQueue.global(qos: .userInitiated).async {
                    
                    do {
                        
@@ -282,6 +293,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
                        callback(nil, error)
                    }
                }
+        }
                
                task.resume()
 
