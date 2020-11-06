@@ -10,16 +10,26 @@ import UIKit
 
 class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
     
-    var friendImage: RoundShadowImageView = {
-        let view = RoundShadowImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    var friendImage: RoundCornersImageView = {
+        let view = RoundCornersImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    var friendName: UILabel = {
+    var friendFirstName: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(20) // TODO: to add to constants
+        label.font = Constants.Fonts.regularOfSize16
+        label.sizeToFit()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var friendLastName: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Fonts.semiBoldOfSize16 // TODO: to add to constants
+        label.sizeToFit()
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -30,7 +40,8 @@ class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(friendImage)
-        addSubview(friendName)
+        addSubview(friendFirstName)
+        addSubview(friendLastName)
         setupConstraints()
     }
     
@@ -45,8 +56,9 @@ class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
     }
     
     func configure(for friend: User) {
-        friendName.text = "\(friend.firstName) \(friend.lastName)"
-        friendImage.imageView.loadImageUsingCacheWithURLString(friend.photo_200, placeHolder: nil) { (bool) in
+        friendFirstName.text = "\(friend.firstName)"
+        friendLastName.text = "\(friend.lastName)"
+        friendImage.loadImageUsingCacheWithURLString(friend.photo_200, placeHolder: nil) { (bool) in
             //perform actions if needed
         }
         
@@ -62,10 +74,11 @@ class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
             friendImage.widthAnchor.constraint(equalTo: friendImage.heightAnchor),
             friendImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
             
-            friendName.centerYAnchor.constraint(equalTo: centerYAnchor),
-            friendName.leadingAnchor.constraint(equalTo: friendImage.trailingAnchor, constant: 8),
-            friendName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            friendName.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8)
+            friendFirstName.centerYAnchor.constraint(equalTo: centerYAnchor),
+            friendFirstName.leadingAnchor.constraint(equalTo: friendImage.trailingAnchor, constant: 8),
+            
+            friendLastName.centerYAnchor.constraint(equalTo: centerYAnchor),
+            friendLastName.leadingAnchor.constraint(equalTo: friendFirstName.trailingAnchor, constant: 6),
             
         ])
         

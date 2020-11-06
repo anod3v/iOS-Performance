@@ -31,7 +31,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         
     }
     
-    func getUserInfo(userId: Int, completion: @escaping (UserWelcome?, Error?) -> Void) {
+    func getUserInfo(userId: Int, completion: @escaping (UserInfoWelcome?, Error?) -> Void) {
         
         guard let token = Session.shared.token else { return }
         
@@ -45,14 +45,14 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         urlConstructor.path = API.getUserInfo
         urlConstructor.queryItems = [
             URLQueryItem(name: "user_ids", value: "\(userId)"),
-            URLQueryItem(name: "fields", value: "bdate"),
+            URLQueryItem(name: "fields", value: "bdate, photo_200_orig"),
             URLQueryItem(name: "access_token", value: "\(token)"),
             URLQueryItem(name: "v", value: API.version)
         ]
         
         let decoder = JSONDecoder()
         
-//        debugPrint("urlConstructor.url!:", urlConstructor.url!)
+        debugPrint("urlConstructor.url!:", urlConstructor.url!)
         
         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
             
@@ -65,7 +65,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             
             do {
                 
-                let result = try decoder.decode(UserWelcome.self, from: dataResponse)
+                let result = try decoder.decode(UserInfoWelcome.self, from: dataResponse)
 //                debugPrint("result:", result)
                 completion(result, nil)
                 
@@ -212,7 +212,6 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         
         let decoder = JSONDecoder()
         
-        // задача для запуска
          let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
                    
                    let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)

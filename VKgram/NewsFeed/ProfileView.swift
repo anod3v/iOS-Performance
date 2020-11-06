@@ -10,8 +10,8 @@ import UIKit
 
 class ProfileView: UIView {
     
-    var sourceImage: RoundImageView = {
-        let view = RoundImageView()
+    var sourceImage: RoundCornersImageView = {
+        let view = RoundCornersImageView(frame: .zero)
 //        view.contentMode = .scaleAspectFill
         view.backgroundColor = #colorLiteral(red: 1, green: 0.3864146769, blue: 0.4975627065, alpha: 1)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ class ProfileView: UIView {
     }()
     var sourceName: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(20) // TODO: to add to constants
+        label.font = Constants.Fonts.semiBoldOfSize16 // TODO: to add to constants
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -44,7 +44,7 @@ class ProfileView: UIView {
             sourceImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             sourceImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),  // TODO: to add to constants
             sourceImage.widthAnchor.constraint(equalTo: sourceImage.heightAnchor),
-            sourceImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
+            sourceImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
 
             sourceName.centerYAnchor.constraint(equalTo: centerYAnchor),
             sourceName.leadingAnchor.constraint(equalTo: sourceImage.trailingAnchor, constant: 8),

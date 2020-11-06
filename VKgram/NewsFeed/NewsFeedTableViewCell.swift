@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol NewsFeedTableViewCellDelegate: class {
-    func revealPost(for cell: NewsFeedTableViewCell)
-}
-
 class NewsFeedTableViewCell: UITableViewCell {
     
     weak var delegate: NewsFeedTableViewCellDelegate?
@@ -44,7 +40,7 @@ class NewsFeedTableViewCell: UITableViewCell {
 
     var postTextLabel: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(20) // TODO: to add to constants
+        label.font = Constants.Fonts.regularOfSize16
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.backgroundColor = .systemYellow
@@ -56,11 +52,13 @@ class NewsFeedTableViewCell: UITableViewCell {
     
     var showMoreButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.setTitleColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), for: .normal) // TODO to put colors in constants
+        button.titleLabel?.font = Constants.Fonts.regularOfSize16
+        button.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal) // TODO to put colors in constants
+        button.titleLabel?.alpha = 0.5
         button.contentHorizontalAlignment = .left
         button.contentVerticalAlignment = .center
-        button.setTitle("Show more...", for: .normal)
+        button.setTitle("more...", for: .normal)
+        button.isHidden = false
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -90,7 +88,7 @@ class NewsFeedTableViewCell: UITableViewCell {
         isExpanded = !isExpanded
         
         postTextLabel.numberOfLines = isExpanded ? 0 : 2
-        showMoreButton.setTitle(isExpanded ? "Read less..." : "Read more...", for: .normal)
+        showMoreButton.setTitle(isExpanded ? "less..." : "more...", for: .normal)
         delegate?.revealPost(for: self)
     }
     
@@ -129,9 +127,9 @@ class NewsFeedTableViewCell: UITableViewCell {
             profileView.topAnchor.constraint(equalTo: contentView.topAnchor),
             profileView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             profileView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            profileView.heightAnchor.constraint(equalToConstant: 80),
+            profileView.heightAnchor.constraint(equalToConstant: 50),
 
-            photoCollageView.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 20),
+            photoCollageView.topAnchor.constraint(equalTo: profileView.bottomAnchor),
             photoCollageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             photoCollageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoCollageView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
@@ -151,7 +149,9 @@ class NewsFeedTableViewCell: UITableViewCell {
                 
         ])
     }
-    
-    
+}
+
+protocol NewsFeedTableViewCellDelegate: class {
+    func revealPost(for cell: NewsFeedTableViewCell)
 }
 

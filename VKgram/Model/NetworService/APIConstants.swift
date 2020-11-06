@@ -23,4 +23,5 @@ struct API {
     static let getUserPhotos = "/method/photos.get"
     static let searchGroups = "/method/groups.search"
     static let getUserFriends = "/method/friends.get"
+    static let getProfileInfo = "/method/account.getProfileInfo"
 }

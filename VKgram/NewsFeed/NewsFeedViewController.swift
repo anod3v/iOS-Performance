@@ -68,9 +68,7 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
     func revealPost(for cell: NewsFeedTableViewCell) {
         tableView.beginUpdates()
         tableView.endUpdates()
-        
     }
-    
 }
 
 extension NewsFeedViewController: UITableViewDataSource, UITableViewDelegate {

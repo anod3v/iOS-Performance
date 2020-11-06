@@ -22,7 +22,7 @@ class LikeBarView: UIView {
     }()
     var likeCounterLabel: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(20) // TODO: to add to constants
+        label.font = Constants.Fonts.semiBoldOfSize16
         label.numberOfLines = 1
         label.backgroundColor = .lightGray
         label.sizeToFit()
@@ -33,7 +33,7 @@ class LikeBarView: UIView {
     
     var viewsCounterLabel: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(12) // TODO: to add to constants
+        label.font = Constants.Fonts.semiBoldOfSize14 // TODO: to add to constants
         label.numberOfLines = 1
         label.backgroundColor = .white
         label.sizeToFit()
@@ -45,7 +45,7 @@ class LikeBarView: UIView {
     
     var likeTextLabel: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(20)
+        label.font = Constants.Fonts.semiBoldOfSize16
         label.text = "likes"
 //        label.font = UIFont(name: "Montserrat-SemiBold", size: 14) // TODO: to add to constants
 //        label.textColor = UIColor(named: "T2MDarkGrey")
@@ -119,17 +119,17 @@ class LikeBarView: UIView {
             likeButton.topAnchor.constraint(equalTo: topAnchor),
             likeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),  // TODO: to add to constants
             likeButton.widthAnchor.constraint(equalTo: likeButton.heightAnchor),
-            likeButton.heightAnchor.constraint(equalToConstant: 30), // TODO: to add to constants
+            likeButton.heightAnchor.constraint(equalToConstant: 25), // TODO: to add to constants
             
             commentButton.topAnchor.constraint(equalTo: topAnchor),
             commentButton.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 20),  // TODO: to add to constants
             commentButton.widthAnchor.constraint(equalTo: commentButton.heightAnchor),
-            commentButton.heightAnchor.constraint(equalToConstant: 30), // TODO: to add to constants
+            commentButton.heightAnchor.constraint(equalToConstant: 25), // TODO: to add to constants
             
             shareButton.topAnchor.constraint(equalTo: topAnchor),
             shareButton.leadingAnchor.constraint(equalTo: commentButton.trailingAnchor, constant: 20),  // TODO: to add to constants
             shareButton.widthAnchor.constraint(equalTo: shareButton.heightAnchor),
-            shareButton.heightAnchor.constraint(equalToConstant: 30), // TODO: to add to constants
+            shareButton.heightAnchor.constraint(equalToConstant: 25), // TODO: to add to constants
             
             viewsView.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),
             viewsView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),  // TODO: to add to constants

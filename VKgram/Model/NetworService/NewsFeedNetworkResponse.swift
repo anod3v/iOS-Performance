@@ -283,7 +283,7 @@ struct Profile: Decodable, ProfileInterface {
 
 // MARK: - OnlineInfo
 struct OnlineInfo: Decodable {
-    let visible, isOnline, isMobile: Bool
+    let visible, isOnline, isMobile: Bool!
     let lastSeen: Int?
 
     enum CodingKeys: String, CodingKey {

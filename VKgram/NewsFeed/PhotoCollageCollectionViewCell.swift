@@ -22,7 +22,7 @@ class PhotoCollageCollectionViewCell: UICollectionViewCell {
     
     var label: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(25) // TODO: to add to constants
+        label.font = Constants.Fonts.regularOfSize25
         label.numberOfLines = 1
         label.textColor = .white
         

@@ -23,6 +23,13 @@ class UserFriendsTableViewController: UIViewController {
     
     private (set) var friendSectionTitles = [String]()
     
+    private (set) var accountHeaderView: AccountHeaderView = {
+        let view = AccountHeaderView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private (set) var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         
@@ -30,7 +37,7 @@ class UserFriendsTableViewController: UIViewController {
         return tableView
     }()
     
-    private let tableViewRowHeight: CGFloat = 52
+    private let tableViewRowHeight: CGFloat = 40
     
     private let cellID = "UserFriendsTableViewCell"
     
@@ -39,6 +46,8 @@ class UserFriendsTableViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     private (set) var filteredFriends: [User] = []
+    
+    private (set) var userInfo: UserInfoResponse?
     
     //--------------
     
@@ -51,31 +60,35 @@ class UserFriendsTableViewController: UIViewController {
         tableView.register(UserFriendsTableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableHeaderView = accountHeaderView
         tableView.pin(to: view)
+        setupConstraints()
+        tableView.tableHeaderView?.layoutIfNeeded()
         
         _ = networkService.getUserFriends(userId: Session.shared.userId!) {
             [weak self] (result, error) in
             //            debugPrint("DEBUGPRINT:", result)
             self!.handleGetUserFriendsResponse(friends: (result?.response.items)!)
         }
+        _ = networkService.getUserInfo(userId: Session.shared.userId!, completion: {
+            (result, error) in
+            debugPrint("the result is:", result)
+            self.handleGetUserInfoResponse(userInfo: (((result?.response.first)!)))
+        })
         
         getFriendsDictionary()
         
-        // 1
         searchController.searchResultsUpdater = self
-        // 2
         searchController.obscuresBackgroundDuringPresentation = false
-        // 3
         searchController.searchBar.placeholder = "Search Friends"
-        // 4
+        setupSearchBarFont()
         navigationItem.searchController = searchController
-        // 5
         definesPresentationContext = true
         
-        //        _ = networkService.getUserInfo(userId: 616595796, completion: {
-        //            (result, error) in
-        //            debugPrint("the result is:", result)
-        //        })
+        //                _ = networkService.getUserInfo(userId: 616595796, completion: {
+        //                    (result, error) in
+        //                    debugPrint("the result is:", result)
+        //                })
         //
         //        _ = networkService.getUserGroups(userId: Session.shared.userId!, completion: {
         //            result in
@@ -95,6 +108,12 @@ class UserFriendsTableViewController: UIViewController {
     }
     
     //--------
+    
+    func setupSearchBarFont() {
+        let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
+        let placeholderLabel = textFieldInsideUISearchBar?.value(forKey: "placeholderLabel") as? UILabel
+        placeholderLabel?.font = Constants.Fonts.regularOfSize16
+    }
     
     var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
@@ -119,6 +138,19 @@ class UserFriendsTableViewController: UIViewController {
         DispatchQueue.main.async { self.tableView.reloadData() }
     }
     
+    func handleGetUserInfoResponse(userInfo: UserInfoResponse) {
+        //TODO: to save data to the database
+        DispatchQueue.main.async {
+            let placeHolderImage = UIImage.gifImageWithName("spinner")
+            self.accountHeaderView.profileImage.loadImageUsingCacheWithURLString(userInfo.photo200_Orig, placeHolder: placeHolderImage){ (bool) in
+                //perform actions if needed
+            }
+            self.accountHeaderView.phoneNumberLabel.text = userInfo.bdate
+            self.accountHeaderView.profileNameLabel.text = "\(userInfo.firstName) \(userInfo.lastName)"
+            
+            self.tableView.reloadData() }
+    }
+    
     func getFriendsDictionary() {
         
         var friendsToDisplay = [User]()
@@ -134,7 +166,7 @@ class UserFriendsTableViewController: UIViewController {
         }
         
         for friend in friendsToDisplay {
-            let friendKey = String(friend.firstName.prefix(1))
+            let friendKey = String(friend.lastName.prefix(1))
             if var friendValues = friendsDictionary[friendKey] {
                 friendValues.append(friend)
                 friendsDictionary[friendKey] = friendValues
@@ -145,6 +177,16 @@ class UserFriendsTableViewController: UIViewController {
             friendSectionTitles = friendSectionTitles.sorted(by: { $0 < $1 })
         }
         
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            
+            accountHeaderView.centerXAnchor.constraint(equalTo: self.tableView.centerXAnchor),
+            accountHeaderView.widthAnchor.constraint(equalTo: self.tableView.widthAnchor),
+            accountHeaderView.topAnchor.constraint(equalTo: self.tableView.topAnchor),
+            accountHeaderView.heightAnchor.constraint(equalToConstant: 160),
+        ])
     }
     
 }
