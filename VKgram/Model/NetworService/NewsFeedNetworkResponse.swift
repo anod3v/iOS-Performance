@@ -6,20 +6,53 @@
 import Foundation
 
 // MARK: - Welcome
-struct Welcome: Decodable { // TODO: try to remove unrequired structs
-    let response: Response
+struct ItemWrappedResponse: Decodable { // TODO: try to remove unrequired structs and parameters
+    let response: ItemResponse
 }
 
 // MARK: - Response
-struct Response: Decodable {
+struct ItemResponse: Decodable {
     let items: [Item]
-    let profiles: [Profile]
-    let groups: [Group]
+//    let profiles: [Profile]
+//    let groups: [Group]
     let nextFrom: String
 
     enum CodingKeys: String, CodingKey {
-        case items, profiles, groups
+        case items
         case nextFrom = "next_from"
+    }
+}
+
+struct ProfileWrappedResponse: Decodable { // TODO: try to remove unrequired structs
+    let response: ProfileResponse
+}
+
+// MARK: - Response
+struct ProfileResponse: Decodable {
+//    let items: [Item]
+    let profiles: [Profile]
+//    let groups: [Group]
+//    let nextFrom: String
+
+    enum CodingKeys: String, CodingKey {
+        case profiles
+    }
+}
+
+struct GroupWrappedResponse: Decodable { // TODO: try to remove unrequired structs
+    let response: GroupResponse
+}
+
+// MARK: - Response
+struct GroupResponse: Decodable {
+//    let items: [Item]
+//    let profiles: [Profile]
+    let groups: [Group]
+//    let nextFrom: String
+
+    enum CodingKeys: String, CodingKey {
+        case groups
+//        case nextFrom = "next_from"
     }
 }
 
@@ -45,7 +78,7 @@ struct Group: Decodable, ProfileInterface {
 }
 
 // MARK: - Item
-struct Item: Decodable { // 3. Создать класс для представления новости типа post.
+struct Item: Decodable {
     let sourceID, date: Int?
     let text: String?
     let markedAsAds: Int?
@@ -92,7 +125,7 @@ struct Attachment: Decodable {
 }
 
 // MARK: - AttachmentPhoto
-struct AttachmentPhoto: Decodable { // 5. *Создать класс для представления новости типа photo.
+struct AttachmentPhoto: Decodable {
     let albumID, date, id, ownerID: Int?
     let hasTags: Bool?
     let accessKey: String?

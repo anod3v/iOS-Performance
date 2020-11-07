@@ -10,6 +10,8 @@ import Foundation
 
 class NetworkService { // TODO: to separate NetworkService and DataFetcher
     
+    let dispatchGroup = DispatchGroup()
+    
     func getLoginForm() -> URLRequest {
         
         var urlComponents = URLComponents()
@@ -57,29 +59,26 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
             
             let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-//            debugPrint("jsonData:", jsonData)
+            //            debugPrint("jsonData:", jsonData)
             
             guard let dataResponse = data, error == nil else {
                 debugPrint(error?.localizedDescription ?? "Response Error")
                 return }
             
-            DispatchQueue.global(qos: .userInitiated).async {
-            
             do {
                 
                 let result = try decoder.decode(UserInfoWelcome.self, from: dataResponse)
-//                debugPrint("result:", result)
+                //                debugPrint("result:", result)
                 completion(result, nil)
                 
             } catch (let error) {
                 
                 completion(nil, error)
             }
-            }
         }
         
         task.resume()
-
+        
     }
     
     func getUserGroups(userId: Int, completion: @escaping (Any?) -> Void) {
@@ -102,14 +101,14 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         ]
         
         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-
+            
             let json = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
             
             completion(json)
         }
-
+        
         task.resume()
-
+        
     }
     
     func getUserPhotos(userId: Int, callback: @escaping (PhotoWelcome?, Error?) -> Void) {
@@ -132,36 +131,33 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             URLQueryItem(name: "v", value: API.version)
         ]
         
-//        debugPrint(urlConstructor.url!)
+        //        debugPrint(urlConstructor.url!)
         
         let decoder = JSONDecoder()
         
-         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-                   
-                   let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-//                   debugPrint("jsonData:", jsonData)
-                   
-                   guard let dataResponse = data, error == nil else {
-                       debugPrint(error?.localizedDescription ?? "Response Error")
-                       return }
+        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
             
-            DispatchQueue.global(qos: .userInitiated).async {
-                   
-                   do {
-                       
-                       let result = try decoder.decode(PhotoWelcome.self, from: dataResponse)
-//                       debugPrint("result:", result)
-                       callback(result, nil)
-                       
-                   } catch (let error) {
-                       
-                       callback(nil, error)
-                   }
+            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
+            //                   debugPrint("jsonData:", jsonData)
+            
+            guard let dataResponse = data, error == nil else {
+                debugPrint(error?.localizedDescription ?? "Response Error")
+                return }
+            
+            do {
+                
+                let result = try decoder.decode(PhotoWelcome.self, from: dataResponse)
+                //                       debugPrint("result:", result)
+                callback(result, nil)
+                
+            } catch (let error) {
+                
+                callback(nil, error)
             }
-               }
-               
-               task.resume()
-
+        }
+        
+        task.resume()
+        
     }
     
     func searchGroups(queryText: String, completion: @escaping (Any?) -> Void) {
@@ -184,12 +180,12 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         ]
         
         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-
+            
             let json = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
             
             completion(json)
         }
-
+        
         task.resume()
         
     }
@@ -214,41 +210,38 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             URLQueryItem(name: "v", value: API.version)
         ]
         
-//        debugPrint(urlConstructor.url!)
+        //        debugPrint(urlConstructor.url!)
         
         let decoder = JSONDecoder()
         
-         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-                   
-                   let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-//                   debugPrint("jsonData:", jsonData)
-                   
-                   guard let dataResponse = data, error == nil else {
-                       debugPrint(error?.localizedDescription ?? "Response Error")
-                       return }
+        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
             
-            DispatchQueue.global(qos: .userInitiated).async {
-                   
-                   do {
-                       
-                       let result = try decoder.decode(UserWelcome.self, from: dataResponse)
-//                       debugPrint("result:", result)
-                       callback(result, nil)
-                       
-                   } catch (let error) {
-                       
-                       callback(nil, error)
-                   }
+            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
+            //                   debugPrint("jsonData:", jsonData)
+            
+            guard let dataResponse = data, error == nil else {
+                debugPrint(error?.localizedDescription ?? "Response Error")
+                return }
+            
+            do {
+                
+                let result = try decoder.decode(UserWelcome.self, from: dataResponse)
+                //                       debugPrint("result:", result)
+                callback(result, nil)
+                
+            } catch (let error) {
+                
+                callback(nil, error)
             }
-               }
-               
-               task.resume()
-
+        }
+        
+        task.resume()
+        
     }
-  
-
-
-    func getNewsFeedItems(callback: @escaping (Welcome?, Error?) -> Void) { // 1. Создать сервис для получения ленты новостей из ВК.
+    
+    
+    
+    func getNewsFeedItems(callback: @escaping (ItemWrappedResponse?, ProfileWrappedResponse?, GroupWrappedResponse, Error?) -> Void) {
         
         guard let token = Session.shared.token else { return }
         
@@ -261,43 +254,92 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         urlConstructor.host = API.host
         urlConstructor.path = API.getNewsFeed
         urlConstructor.queryItems = [
-            URLQueryItem(name: "filters", value: "post, photo"), // 2. Добавить запрос для получения новостей типа post. 4. *Добавить запрос для получения новостей типа photo
+            URLQueryItem(name: "filters", value: "post, photo"),
             URLQueryItem(name: "count", value: "50"),
             URLQueryItem(name: "access_token", value: "\(token)"),
             URLQueryItem(name: "v", value: API.version)
         ]
         
-//        debugPrint(urlConstructor.url!)
+        //        debugPrint(urlConstructor.url!)
         
         let decoder = JSONDecoder()
         
-         let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-                   
-                   let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-//                   debugPrint("jsonData:", jsonData)
-                   
-                   guard let dataResponse = data, error == nil else {
-                       debugPrint(error?.localizedDescription ?? "Response Error")
-                       return }
+        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
             
-            DispatchQueue.global(qos: .userInitiated).async {
-                   
-                   do {
-                       
-                       let result = try decoder.decode(Welcome.self, from: dataResponse)
-//                       debugPrint("resultant NewsFeed:", result)
-                       callback(result, nil)
-                       
-                   } catch (let error) {
-                       
-                       callback(nil, error)
-                   }
-               }
+            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
+            //                   debugPrint("jsonData:", jsonData)
+            
+            guard let dataResponse = data, error == nil else {
+                debugPrint(error?.localizedDescription ?? "Response Error")
+                return }
+            
+            var itemResult: ItemWrappedResponse?
+            var profileResult: ProfileWrappedResponse?
+            var groupResult: GroupWrappedResponse?
+            
+            func parseItem(data: Data) {
+                self.dispatchGroup.enter()
+                DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    
+                    itemResult = try decoder.decode(ItemWrappedResponse.self, from: data)
+                    //                       debugPrint("resultant NewsFeed:", result)
+                    //                       callback(result, nil)
+                } catch (let error) {
+                    //                       callback(nil, error)
+                    debugPrint(error.localizedDescription)
+                    
+                }
+                    self.dispatchGroup.leave()
+                }
+            }
+            
+            func parseProfile(data: Data) {
+                self.dispatchGroup.enter()
+                DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    
+                    profileResult = try decoder.decode(ProfileWrappedResponse.self, from: data)
+                    //                       debugPrint("resultant NewsFeed:", result)
+                    //                       callback(result, nil)
+                } catch (let error) {
+                    //                       callback(nil, error)
+                    debugPrint(error.localizedDescription)
+                    
+                }
+                self.dispatchGroup.leave()
+            }
+            }
+            
+            func parseGroup(data: Data) {
+                self.dispatchGroup.enter()
+                DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    
+                    groupResult = try decoder.decode(GroupWrappedResponse.self, from: data)
+                    //                       debugPrint("resultant NewsFeed:", result)
+                    //                       callback(result, nil)
+                } catch (let error) {
+                    //                       callback(nil, error)
+                    debugPrint(error.localizedDescription)
+                    
+                }
+                self.dispatchGroup.leave()
+            }
+            }
+            
+            parseItem(data: dataResponse)
+            parseProfile(data: dataResponse)
+            parseGroup(data: dataResponse)
+            
+            self.dispatchGroup.notify(queue: .main) {
+                callback(itemResult, profileResult, groupResult!, nil) // TODO: to check why the optional here?
+            }
         }
-               
-               task.resume()
-
+        
+        task.resume()
+        
     }
-  
+    
 }
 

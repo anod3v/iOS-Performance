@@ -161,8 +161,11 @@ class UserFriendsTableViewController: UIViewController {
         
         if isFiltering {
             friendsToDisplay = filteredFriends
+            tableView.tableHeaderView?.removeFromSuperview()
+            tableView.tableHeaderView? = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
         } else {
             friendsToDisplay = friends
+            tableView.tableHeaderView = accountHeaderView
         }
         
         for friend in friendsToDisplay {

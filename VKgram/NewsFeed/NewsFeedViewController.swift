@@ -44,9 +44,9 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
         
         
         _ = networkService.getNewsFeedItems( callback: { // TODO: to check with swiftbook how they optimized this request
-            [weak self] (result, error) in
+            [weak self] (itemResult, profileResult, groupResult, error) in
 //            debugPrint("the result is:", result)
-            self!.handleGetNewsFeedResponse(response: ((result?.response)!))
+            self!.handleGetNewsFeedResponse(item: itemResult!.response, profile: profileResult!.response, group: groupResult.response)
         })
         
         view.addSubview(tableView)
@@ -57,10 +57,10 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
         tableView.pin(to: view)
     }
     
-    func handleGetNewsFeedResponse(response: Response) {
-        self.newFeedItems = response.items
-        self.newsFeedGroups = response.groups
-        self.newsFeedProfiles = response.profiles
+    func handleGetNewsFeedResponse(item: ItemResponse, profile: ProfileResponse, group: GroupResponse) {
+        self.newFeedItems = item.items
+        self.newsFeedProfiles = profile.profiles
+        self.newsFeedGroups = group.groups
         
         DispatchQueue.main.async { self.tableView.reloadData() }
     }
