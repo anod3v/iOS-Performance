@@ -280,16 +280,11 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             func parseItem(data: Data) {
                 self.dispatchGroup.enter()
                 DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    
-                    itemResult = try decoder.decode(ItemWrappedResponse.self, from: data)
-                    //                       debugPrint("resultant NewsFeed:", result)
-                    //                       callback(result, nil)
-                } catch (let error) {
-                    //                       callback(nil, error)
-                    debugPrint(error.localizedDescription)
-                    
-                }
+                    do {
+                        itemResult = try decoder.decode(ItemWrappedResponse.self, from: data)
+                    } catch (let error) {
+                        debugPrint(error.localizedDescription)
+                    }
                     self.dispatchGroup.leave()
                 }
             }
@@ -297,35 +292,25 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             func parseProfile(data: Data) {
                 self.dispatchGroup.enter()
                 DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    
-                    profileResult = try decoder.decode(ProfileWrappedResponse.self, from: data)
-                    //                       debugPrint("resultant NewsFeed:", result)
-                    //                       callback(result, nil)
-                } catch (let error) {
-                    //                       callback(nil, error)
-                    debugPrint(error.localizedDescription)
-                    
+                    do {
+                        profileResult = try decoder.decode(ProfileWrappedResponse.self, from: data)
+                    } catch (let error) {
+                        debugPrint(error.localizedDescription)
+                    }
+                    self.dispatchGroup.leave()
                 }
-                self.dispatchGroup.leave()
-            }
             }
             
             func parseGroup(data: Data) {
                 self.dispatchGroup.enter()
                 DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    
-                    groupResult = try decoder.decode(GroupWrappedResponse.self, from: data)
-                    //                       debugPrint("resultant NewsFeed:", result)
-                    //                       callback(result, nil)
-                } catch (let error) {
-                    //                       callback(nil, error)
-                    debugPrint(error.localizedDescription)
-                    
+                    do {
+                        groupResult = try decoder.decode(GroupWrappedResponse.self, from: data)
+                    } catch (let error) {
+                        debugPrint(error.localizedDescription)
+                    }
+                    self.dispatchGroup.leave()
                 }
-                self.dispatchGroup.leave()
-            }
             }
             
             parseItem(data: dataResponse)

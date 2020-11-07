@@ -13,8 +13,6 @@ struct ItemWrappedResponse: Decodable { // TODO: try to remove unrequired struct
 // MARK: - Response
 struct ItemResponse: Decodable {
     let items: [Item]
-//    let profiles: [Profile]
-//    let groups: [Group]
     let nextFrom: String
 
     enum CodingKeys: String, CodingKey {
@@ -29,10 +27,7 @@ struct ProfileWrappedResponse: Decodable { // TODO: try to remove unrequired str
 
 // MARK: - Response
 struct ProfileResponse: Decodable {
-//    let items: [Item]
     let profiles: [Profile]
-//    let groups: [Group]
-//    let nextFrom: String
 
     enum CodingKeys: String, CodingKey {
         case profiles
@@ -45,14 +40,10 @@ struct GroupWrappedResponse: Decodable { // TODO: try to remove unrequired struc
 
 // MARK: - Response
 struct GroupResponse: Decodable {
-//    let items: [Item]
-//    let profiles: [Profile]
     let groups: [Group]
-//    let nextFrom: String
 
     enum CodingKeys: String, CodingKey {
         case groups
-//        case nextFrom = "next_from"
     }
 }
 
