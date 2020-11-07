@@ -45,7 +45,7 @@ struct Group: Decodable, ProfileInterface {
 }
 
 // MARK: - Item
-struct Item: Decodable {
+struct Item: Decodable { // 3. Создать класс для представления новости типа post.
     let sourceID, date: Int?
     let text: String?
     let markedAsAds: Int?
@@ -92,7 +92,7 @@ struct Attachment: Decodable {
 }
 
 // MARK: - AttachmentPhoto
-struct AttachmentPhoto: Decodable {
+struct AttachmentPhoto: Decodable { // 5. *Создать класс для представления новости типа photo.
     let albumID, date, id, ownerID: Int?
     let hasTags: Bool?
     let accessKey: String?
