@@ -42,12 +42,9 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        _ = networkService.getNewsFeedItems( callback: { // TODO: to check with swiftbook how they optimized this request
-            [weak self] (itemResult, profileResult, groupResult, error) in
-//            debugPrint("the result is:", result)
-            self!.handleGetNewsFeedResponse(item: itemResult!.response, profile: profileResult!.response, group: groupResult.response)
-        })
+        networkService.getNewsFeedItems()?.done { result in
+            self.handleGetNewsFeedResponse(item: result.0.response, profile: result.1.response, group: result.2.response)
+       }
         
         view.addSubview(tableView)
         

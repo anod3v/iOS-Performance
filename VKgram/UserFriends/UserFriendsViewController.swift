@@ -65,16 +65,15 @@ class UserFriendsTableViewController: UIViewController {
         setupConstraints()
         tableView.tableHeaderView?.layoutIfNeeded()
         
-        _ = networkService.getUserFriends(userId: Session.shared.userId!) {
-            [weak self] (result, error) in
-            //            debugPrint("DEBUGPRINT:", result)
-            self!.handleGetUserFriendsResponse(friends: (result?.response.items)!)
+        networkService.getUserFriends(userId: Session.shared.userId!)?
+            .done { friends in
+                self.handleUserFriendsResponse(friends: friends.response.items)
         }
-        _ = networkService.getUserInfo(userId: Session.shared.userId!, completion: {
-            (result, error) in
-            debugPrint("the result is:", result)
-            self.handleGetUserInfoResponse(userInfo: (((result?.response.first)!)))
-        })
+        
+        networkService.getUserInfo(userId: Session.shared.userId!)?
+            .done { result in
+                self.handleGetUserInfoResponseForAccountHeader(userInfo: result.response.first!)
+        }
         
         getFriendsDictionary()
         
@@ -84,27 +83,7 @@ class UserFriendsTableViewController: UIViewController {
         setupSearchBarFont()
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        
-        //                _ = networkService.getUserInfo(userId: 616595796, completion: {
-        //                    (result, error) in
-        //                    debugPrint("the result is:", result)
-        //                })
-        //
-        //        _ = networkService.getUserGroups(userId: Session.shared.userId!, completion: {
-        //            result in
-        //            debugPrint(result)
-        //        })
-        //
-        //        _ = networkService.getUserPhotos(userId: 616595781, completion: {
-        //            result in
-        //            debugPrint(result)
-        //        })
-        //
-        //
-        //        _ = networkService.searchGroups(queryText: "music", completion: {
-        //            result in
-        //            debugPrint(result)
-        //        })
+
     }
     
     //--------
@@ -131,14 +110,14 @@ class UserFriendsTableViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func handleGetUserFriendsResponse(friends: [User]) {
+    func handleUserFriendsResponse(friends: [User]) {
         self.storageService.saveUsers(users: friends)
         self.friends = self.storageService.loadUsers()
         //        debugPrint("users print:", self.friends)
         DispatchQueue.main.async { self.tableView.reloadData() }
     }
     
-    func handleGetUserInfoResponse(userInfo: UserInfoResponse) {
+    func handleGetUserInfoResponseForAccountHeader(userInfo: UserInfoResponse) {
         //TODO: to save data to the database
         DispatchQueue.main.async {
             let placeHolderImage = UIImage.gifImageWithName("spinner")

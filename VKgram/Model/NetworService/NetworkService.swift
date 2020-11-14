@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 class NetworkService { // TODO: to separate NetworkService and DataFetcher
     
@@ -33,9 +34,9 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         
     }
     
-    func getUserInfo(userId: Int, completion: @escaping (UserInfoWelcome?, Error?) -> Void) {
+    func getUserInfo(userId:Int) -> Promise<UserInfoWelcome>? {
         
-        guard let token = Session.shared.token else { return }
+        guard let token = Session.shared.token else { return nil }
         
         let configuration = URLSessionConfiguration.default
         
@@ -51,35 +52,18 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             URLQueryItem(name: "access_token", value: "\(token)"),
             URLQueryItem(name: "v", value: API.version)
         ]
-        
-        let decoder = JSONDecoder()
-        
-        debugPrint("urlConstructor.url!:", urlConstructor.url!)
-        
-        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-            
-            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-            //            debugPrint("jsonData:", jsonData)
-            
-            guard let dataResponse = data, error == nil else {
-                debugPrint(error?.localizedDescription ?? "Response Error")
-                return }
-            
-            do {
-                
-                let result = try decoder.decode(UserInfoWelcome.self, from: dataResponse)
-                //                debugPrint("result:", result)
-                completion(result, nil)
-                
-            } catch (let error) {
-                
-                completion(nil, error)
+
+        let promise = firstly {
+            URLSession.shared.dataTask(.promise, with: urlConstructor.url!)
+        }.compactMap {
+          return try JSONDecoder().decode(UserInfoWelcome.self, from: $0.data)
+        }
+        promise.catch { error in
+                debugPrint(urlConstructor.path, error.localizedDescription)
             }
+            return promise
         }
         
-        task.resume()
-        
-    }
     
     func getUserGroups(userId: Int, completion: @escaping (Any?) -> Void) {
         
@@ -111,9 +95,9 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         
     }
     
-    func getUserPhotos(userId: Int, callback: @escaping (PhotoWelcome?, Error?) -> Void) {
+    func getUserPhotos(userId: Int) -> Promise<PhotoWelcome>? {
         
-        guard let token = Session.shared.token else { return }
+        guard let token = Session.shared.token else { return nil }
         
         let configuration = URLSessionConfiguration.default
         
@@ -133,31 +117,15 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         
         //        debugPrint(urlConstructor.url!)
         
-        let decoder = JSONDecoder()
-        
-        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-            
-            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-            //                   debugPrint("jsonData:", jsonData)
-            
-            guard let dataResponse = data, error == nil else {
-                debugPrint(error?.localizedDescription ?? "Response Error")
-                return }
-            
-            do {
-                
-                let result = try decoder.decode(PhotoWelcome.self, from: dataResponse)
-                //                       debugPrint("result:", result)
-                callback(result, nil)
-                
-            } catch (let error) {
-                
-                callback(nil, error)
-            }
+        let promise = firstly {
+            URLSession.shared.dataTask(.promise, with: urlConstructor.url!)
+        }.compactMap {
+            return try JSONDecoder().decode(PhotoWelcome.self, from: $0.data)
         }
-        
-        task.resume()
-        
+        promise.catch { error in
+            debugPrint(error.localizedDescription)
+        }
+        return promise
     }
     
     func searchGroups(queryText: String, completion: @escaping (Any?) -> Void) {
@@ -190,9 +158,9 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         
     }
     
-    func getUserFriends(userId: Int, callback: @escaping (UserWelcome?, Error?) -> Void) {
+    func getUserFriends(userId: Int) -> Promise<UserWelcome>? {
         
-        guard let token = Session.shared.token else { return }
+        guard let token = Session.shared.token else { return nil }
         
         let configuration = URLSessionConfiguration.default
         
@@ -210,40 +178,23 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             URLQueryItem(name: "v", value: API.version)
         ]
         
-        //        debugPrint(urlConstructor.url!)
-        
-        let decoder = JSONDecoder()
-        
-        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-            
-            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-            //                   debugPrint("jsonData:", jsonData)
-            
-            guard let dataResponse = data, error == nil else {
-                debugPrint(error?.localizedDescription ?? "Response Error")
-                return }
-            
-            do {
-                
-                let result = try decoder.decode(UserWelcome.self, from: dataResponse)
-                //                       debugPrint("result:", result)
-                callback(result, nil)
-                
-            } catch (let error) {
-                
-                callback(nil, error)
-            }
+        let promise = firstly {
+            URLSession.shared.dataTask(.promise, with: urlConstructor.url!)
+        }.compactMap {
+            return try JSONDecoder().decode(UserWelcome.self, from: $0.data)
         }
-        
-        task.resume()
+        promise.catch { error in
+            debugPrint(urlConstructor.path, error.localizedDescription)
+        }
+        return promise
         
     }
     
     
     
-    func getNewsFeedItems(callback: @escaping (ItemWrappedResponse?, ProfileWrappedResponse?, GroupWrappedResponse, Error?) -> Void) {
+    func getNewsFeedItems() -> Promise<(ItemWrappedResponse, ProfileWrappedResponse, GroupWrappedResponse)>? {
         
-        guard let token = Session.shared.token else { return }
+        guard let token = Session.shared.token else { return nil } // TODO: сделать через catch и убрать nil
         
         let configuration = URLSessionConfiguration.default
         
@@ -260,71 +211,38 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             URLQueryItem(name: "v", value: API.version)
         ]
         
-        //        debugPrint(urlConstructor.url!)
-        
-        let decoder = JSONDecoder()
-        
-        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-            
-            let jsonData = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-            //                   debugPrint("jsonData:", jsonData)
-            
-            guard let dataResponse = data, error == nil else {
-                debugPrint(error?.localizedDescription ?? "Response Error")
-                return }
-            
-            var itemResult: ItemWrappedResponse?
-            var profileResult: ProfileWrappedResponse?
-            var groupResult: GroupWrappedResponse?
-            
-            func parseItem(data: Data) {
-                self.dispatchGroup.enter()
-                DispatchQueue.global(qos: .userInitiated).async {
-                    do {
-                        itemResult = try decoder.decode(ItemWrappedResponse.self, from: data)
-                    } catch (let error) {
-                        debugPrint(error.localizedDescription)
-                    }
-                    self.dispatchGroup.leave()
-                }
-            }
-            
-            func parseProfile(data: Data) {
-                self.dispatchGroup.enter()
-                DispatchQueue.global(qos: .userInitiated).async {
-                    do {
-                        profileResult = try decoder.decode(ProfileWrappedResponse.self, from: data)
-                    } catch (let error) {
-                        debugPrint(error.localizedDescription)
-                    }
-                    self.dispatchGroup.leave()
-                }
-            }
-            
-            func parseGroup(data: Data) {
-                self.dispatchGroup.enter()
-                DispatchQueue.global(qos: .userInitiated).async {
-                    do {
-                        groupResult = try decoder.decode(GroupWrappedResponse.self, from: data)
-                    } catch (let error) {
-                        debugPrint(error.localizedDescription)
-                    }
-                    self.dispatchGroup.leave()
-                }
-            }
-            
-            parseItem(data: dataResponse)
-            parseProfile(data: dataResponse)
-            parseGroup(data: dataResponse)
-            
-            self.dispatchGroup.notify(queue: .main) {
-                callback(itemResult, profileResult, groupResult!, nil) // TODO: to check why the optional here?
+        func parseItem(data: Data) -> Promise<ItemWrappedResponse> {
+            return Promise { seal in
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(ItemWrappedResponse.self, from: data)
+                seal.resolve(.fulfilled(result))
             }
         }
         
-        task.resume()
+        func parseProfile(data: Data) -> Promise<ProfileWrappedResponse> {
+            return Promise { seal in
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(ProfileWrappedResponse.self, from: data)
+                seal.resolve(.fulfilled(result))
+            }
+        }
         
+        func parseGroup(data: Data) -> Promise<GroupWrappedResponse> {
+            return Promise { seal in
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(GroupWrappedResponse.self, from: data)
+                seal.resolve(.fulfilled(result))
+            }
+        }
+        
+        return firstly {
+            URLSession.shared.dataTask(.promise, with: urlConstructor.url!)
+        }.then (on: DispatchQueue.global(qos: .background)) { response in
+            when(fulfilled:parseItem(data: response.data), parseProfile(data: response.data), parseGroup(data: response.data))
+        }
     }
     
 }
+
+
 
