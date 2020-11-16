@@ -116,9 +116,9 @@ class NewsFeedTableViewCell: UITableViewCell {
         let placeHolderImage = UIImage.gifImageWithName("spinner")
         
         profileView.sourceName.text = name
-        profileView.sourceImage.loadImageUsingCacheWithURLString(photo!, placeHolder: placeHolderImage) { (bool) in
-                    //perform actions if needed
-                }
+        PhotoService.shared.photo(url: photo!) { image in
+            self.profileView.sourceImage.image = image
+        }
     }
     
     func setupConstraints() {

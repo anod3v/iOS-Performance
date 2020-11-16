@@ -75,23 +75,19 @@ class PhotoCollageCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(for model: String) {
-
-        let placeHolderImage = UIImage.gifImageWithName("spinner")
         
-        postImage.loadImageUsingCacheWithURLString(model, placeHolder: placeHolderImage) { (bool) in
-            //perform actions if needed
+        PhotoService.shared.photo(url: model) { image in
+            self.postImage.image = image
         }
         darkView.isHidden = true
         label.isHidden = true
     }
     
     func configureEmptyCell(for model: String, labelText: String) {
-        
-        let placeHolderImage = UIImage.gifImageWithName("spinner")
 
         label.text = labelText
-        postImage.loadImageUsingCacheWithURLString(model, placeHolder: placeHolderImage) { (bool) in
-
+        PhotoService.shared.photo(url: model) { image in
+            self.postImage.image = image
         }
 
         darkView.isHidden = false
