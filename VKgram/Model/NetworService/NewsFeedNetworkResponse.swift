@@ -6,12 +6,12 @@
 import Foundation
 
 // MARK: - Welcome
-struct ItemWrappedResponse: Decodable { // TODO: try to remove unrequired structs and parameters
+struct ItemWrappedResponse: Codable { // TODO: try to remove unrequired structs and parameters
     let response: ItemResponse
 }
 
 // MARK: - Response
-struct ItemResponse: Decodable {
+struct ItemResponse: Codable {
     let items: [Item]
     let nextFrom: String
 
@@ -69,7 +69,7 @@ struct Group: Decodable, ProfileInterface {
 }
 
 // MARK: - Item
-struct Item: Decodable {
+struct Item: Codable {
     let sourceID, date: Int?
     let text: String?
     let markedAsAds: Int?
@@ -94,7 +94,7 @@ struct Item: Decodable {
 }
 
 // MARK: - Attachment
-struct Attachment: Decodable {
+struct Attachment: Codable {
     let type: String
     let photo: AttachmentPhoto?
     let link: Link?
@@ -116,7 +116,7 @@ struct Attachment: Decodable {
 }
 
 // MARK: - AttachmentPhoto
-struct AttachmentPhoto: Decodable {
+struct AttachmentPhoto: Codable {
     let albumID, date, id, ownerID: Int?
     let hasTags: Bool?
     let accessKey: String?
@@ -151,7 +151,7 @@ struct AttachmentPhoto: Decodable {
 }
 
 // MARK: - Video
-struct Video: Decodable {
+struct Video: Codable {
     let accessKey: String?
     let canComment, canLike, canRepost, canSubscribe: Int?
     let canAddToFaves, canAdd, date: Int?
@@ -198,7 +198,7 @@ struct Video: Decodable {
 }
 
 // MARK: - Link
-struct Link: Decodable {
+struct Link: Codable {
     let url: String?
     let title, linkDescription: String?
     let target: String?
@@ -213,7 +213,7 @@ struct Link: Decodable {
 }
 
 // MARK: - LinkPhoto
-struct LinkPhoto: Decodable {
+struct LinkPhoto: Codable {
     let albumID, date, id, ownerID: Int?
     let hasTags: Bool?
     let height: Int?
@@ -239,7 +239,7 @@ struct LinkPhoto: Decodable {
 
 
 // MARK: - Comments
-struct Comments: Decodable {
+struct Comments: Codable {
     let count, canPost: Int
     let groupsCanPost: Bool?
 
@@ -251,7 +251,7 @@ struct Comments: Decodable {
 }
 
 // MARK: - Likes
-struct Likes: Decodable {
+struct Likes: Codable {
     let count, userLikes, canLike, canPublish: Int
 
     enum CodingKeys: String, CodingKey {
@@ -263,7 +263,7 @@ struct Likes: Decodable {
 }
 
 // MARK: - Reposts
-struct Reposts: Decodable {
+struct Reposts: Codable {
     let count, userReposted: Int
 
     enum CodingKeys: String, CodingKey {
@@ -273,12 +273,12 @@ struct Reposts: Decodable {
 }
 
 // MARK: - Views
-struct Views: Decodable {
+struct Views: Codable {
     let count: Int
 }
 
 // MARK: - Profile
-struct Profile: Decodable, ProfileInterface {
+struct Profile: Codable, ProfileInterface {
     let id: Int
     let firstName, lastName: String
     let sex: Int
@@ -306,7 +306,7 @@ struct Profile: Decodable, ProfileInterface {
 }
 
 // MARK: - OnlineInfo
-struct OnlineInfo: Decodable {
+struct OnlineInfo: Codable {
     let visible, isOnline, isMobile: Bool!
     let lastSeen: Int?
 

@@ -9,18 +9,18 @@
 import Foundation
 
   // MARK: - Welcome
-  struct UserWelcome: Decodable {
+  struct UserWelcome: Codable {
       let response: UserResponse
   }
 
   // MARK: - Response
-  struct UserResponse: Decodable {
+  struct UserResponse: Codable {
       let count: Int
       let items: [User]
   }
 
   // MARK: - Item
-  struct User: Decodable {
+  struct User: Codable {
       let id: Int
       let firstName, lastName: String
       let photo_200: String
@@ -35,18 +35,18 @@ import Foundation
       }
   }
 
-struct PhotoWelcome: Decodable {
+struct PhotoWelcome: Codable {
     let response: PhotoResponse
 }
 
 // MARK: - Response
-struct PhotoResponse: Decodable {
+struct PhotoResponse: Codable {
     let count: Int
     let items: [Photo]
 }
 
 // MARK: - Item
-struct Photo: Decodable {
+struct Photo: Codable {
     let albumID, date, id, ownerID: Int
     let hasTags: Bool
     let height: Int

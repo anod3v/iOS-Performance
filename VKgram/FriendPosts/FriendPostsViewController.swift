@@ -46,9 +46,9 @@ class FriendPostsViewController: UIViewController {
         collectionView.register(FriendPostsCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.pin(to: view)
         
-        _ = networkService.getUserPhotos(userId: selectedFriend.id) {
-            [weak self] (result, error) in
-            self!.handleGetUserPhotosResponse(photos: (result?.response.items)!)
+        networkService.getUserPhotos(userId: selectedFriend.id)?
+            .done { photos in
+                self.handleGetUserPhotosResponse(photos: photos.response.items)
         }
         
     }
