@@ -85,9 +85,10 @@ class FriendPostsCollectionViewCell: UICollectionViewCell {
     func configure(for model: Photo) {
 //        selectedPost = model
         //        friendAge.text = "\(model.age)"
-        friendPhotoImage.loadImageUsingCacheWithURLString(model.photo604, placeHolder: nil) { (bool) in
-            //perform actions if needed
-        }
+        
+//        friendPhotoImage.loadImageUsingCacheWithURLString(model.photo604, placeHolder: nil) { (bool) in
+//            //perform actions if needed
+//        }
         
 //        if model.photoUrls.count > 1 {
 //            multiplePicSign.isHidden = false

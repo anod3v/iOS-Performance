@@ -58,8 +58,8 @@ class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
     func configure(for friend: User) {
         friendFirstName.text = "\(friend.firstName)"
         friendLastName.text = "\(friend.lastName)"
-        friendImage.loadImageUsingCacheWithURLString(friend.photo_200, placeHolder: nil) { (bool) in
-            //perform actions if needed
+        PhotoService.shared.photo(url: friend.photo_200) { image in
+            self.friendImage.image = image
         }
         
         selectedFriend = friend

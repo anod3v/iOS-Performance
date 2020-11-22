@@ -121,8 +121,8 @@ class UserFriendsTableViewController: UIViewController {
         //TODO: to save data to the database
         DispatchQueue.main.async {
             let placeHolderImage = UIImage.gifImageWithName("spinner")
-            self.accountHeaderView.profileImage.loadImageUsingCacheWithURLString(userInfo.photo200_Orig, placeHolder: placeHolderImage){ (bool) in
-                //perform actions if needed
+            PhotoService.shared.photo(url: userInfo.photo200_Orig) { image in
+                self.accountHeaderView.profileImage.image = image
             }
             self.accountHeaderView.phoneNumberLabel.text = userInfo.bdate
             self.accountHeaderView.profileNameLabel.text = "\(userInfo.firstName) \(userInfo.lastName)"
@@ -202,6 +202,7 @@ extension UserFriendsTableViewController: UITableViewDelegate, UITableViewDataSo
         if let friendValues = friendsDictionary[friendKey] {
             cell.configure(for: friendValues[indexPath.row])
         }
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
         
         return cell
     }
