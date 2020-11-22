@@ -65,9 +65,9 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         }
         
     
-    func getUserGroups(userId: Int, completion: @escaping (Any?) -> Void) {
+    func getUserGroups(userId: Int) -> Promise<GroupsWelcome>? {
         
-        guard let token = Session.shared.token else { return }
+        guard let token = Session.shared.token else { return nil }
         
         let configuration = URLSessionConfiguration.default
         
@@ -84,14 +84,15 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
             URLQueryItem(name: "v", value: API.version)
         ]
         
-        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-            
-            let json = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-            
-            completion(json)
+        let promise = firstly {
+            URLSession.shared.dataTask(.promise, with: urlConstructor.url!)
+        }.compactMap {
+            return try JSONDecoder().decode(GroupsWelcome.self, from: $0.data)
         }
-        
-        task.resume()
+        promise.catch { error in
+            debugPrint(error.localizedDescription)
+        }
+        return promise
         
     }
     

@@ -6,6 +6,7 @@ target 'VKgram' do
   use_frameworks!
 
 pod "PromiseKit", "~> 6.8"
+pod 'MessageKit'
 
   # Pods for VKgram
 

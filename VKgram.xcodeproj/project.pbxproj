@@ -15,6 +15,14 @@
 		55023D6D254FF9FB001EDF4D /* LocalPhoto+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55023D66254FF9FB001EDF4D /* LocalPhoto+CoreDataProperties.swift */; };
 		55023D6E254FF9FB001EDF4D /* LocalUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55023D67254FF9FB001EDF4D /* LocalUser+CoreDataClass.swift */; };
 		5516C6CB25545A4700586D6D /* UserInfoNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5516C6CA25545A4700586D6D /* UserInfoNetworkResponse.swift */; };
+		551A3D9E25669D5C0027A529 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551A3D9D25669D5C0027A529 /* ChatViewController.swift */; };
+		551A3DA025669D780027A529 /* MChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551A3D9F25669D780027A529 /* MChat.swift */; };
+		551A3DA225669D960027A529 /* MUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551A3DA125669D960027A529 /* MUser.swift */; };
+		551A3DA425669DB30027A529 /* MMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551A3DA325669DB30027A529 /* MMessage.swift */; };
+		553C9D712569389300DB8981 /* UserGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FF5F2525177B3D00DE40BC /* UserGroupsViewController.swift */; };
+		553C9D722569389700DB8981 /* UserGroupsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C9D6F2569324800DB8981 /* UserGroupsHeaderView.swift */; };
+		553C9D742569391400DB8981 /* UserGroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C9D732569391400DB8981 /* UserGroupsTableViewCell.swift */; };
+		553C9D762569642B00DB8981 /* GroupsNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C9D752569642B00DB8981 /* GroupsNetworkResponse.swift */; };
 		5549EBB52516811600333B59 /* PostFullSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5549EBB42516811600333B59 /* PostFullSizeViewController.swift */; };
 		554B1F8B2551A8BA0015CEE0 /* NotoSansTC-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 554B1F842551A0D10015CEE0 /* NotoSansTC-ExtraBold.otf */; };
 		554B1F8C2551A8BF0015CEE0 /* NotoSansTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 554B1F892551A0D30015CEE0 /* NotoSansTC-Bold.otf */; };
@@ -54,7 +62,6 @@
 		55E4B2B1253F1B4200BB23AF /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E4B2B0253F1B4200BB23AF /* NetworkResponse.swift */; };
 		55E4B2B3253F236000BB23AF /* LoginFormController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E4B2B2253F236000BB23AF /* LoginFormController.swift */; };
 		55FF5F24251773F900DE40BC /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FF5F23251773F900DE40BC /* MainTabBarViewController.swift */; };
-		55FF5F2625177B3D00DE40BC /* UserGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FF5F2525177B3D00DE40BC /* UserGroupsViewController.swift */; };
 		A200E36C4BA76A7A2F67C4BA /* Pods_VKgram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5A03925630AA01685682A0 /* Pods_VKgram.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +76,13 @@
 		55023D66254FF9FB001EDF4D /* LocalPhoto+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocalPhoto+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		55023D67254FF9FB001EDF4D /* LocalUser+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocalUser+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5516C6CA25545A4700586D6D /* UserInfoNetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoNetworkResponse.swift; sourceTree = "<group>"; };
+		551A3D9D25669D5C0027A529 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		551A3D9F25669D780027A529 /* MChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MChat.swift; sourceTree = "<group>"; };
+		551A3DA125669D960027A529 /* MUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUser.swift; sourceTree = "<group>"; };
+		551A3DA325669DB30027A529 /* MMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMessage.swift; sourceTree = "<group>"; };
+		553C9D6F2569324800DB8981 /* UserGroupsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroupsHeaderView.swift; sourceTree = "<group>"; };
+		553C9D732569391400DB8981 /* UserGroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroupsTableViewCell.swift; sourceTree = "<group>"; };
+		553C9D752569642B00DB8981 /* GroupsNetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsNetworkResponse.swift; sourceTree = "<group>"; };
 		5549EBB42516811600333B59 /* PostFullSizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFullSizeViewController.swift; sourceTree = "<group>"; };
 		554B1F842551A0D10015CEE0 /* NotoSansTC-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-ExtraBold.otf"; sourceTree = "<group>"; };
 		554B1F862551A0D20015CEE0 /* NotoSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.otf"; sourceTree = "<group>"; };
@@ -162,6 +176,17 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		551A3D9C25669B4A0027A529 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				551A3D9D25669D5C0027A529 /* ChatViewController.swift */,
+				551A3D9F25669D780027A529 /* MChat.swift */,
+				551A3DA125669D960027A529 /* MUser.swift */,
+				551A3DA325669DB30027A529 /* MMessage.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		5549EBB32516807B00333B59 /* FriendPosts */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +235,7 @@
 				5549EBB62516BD0000333B59 /* PostFullSize */,
 				5574E8A72517BDCE00CA93A6 /* MainTabBar */,
 				5574E8A82517BDE300CA93A6 /* UserGroups */,
+				551A3D9C25669B4A0027A529 /* Chat */,
 				5555E93F250CCB80007FF8F1 /* AppDelegate.swift */,
 				55C7684D254AFE7700ECC4F1 /* spinner.gif */,
 				5555E941250CCB80007FF8F1 /* SceneDelegate.swift */,
@@ -246,6 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				55FF5F2525177B3D00DE40BC /* UserGroupsViewController.swift */,
+				553C9D6F2569324800DB8981 /* UserGroupsHeaderView.swift */,
+				553C9D732569391400DB8981 /* UserGroupsTableViewCell.swift */,
 			);
 			path = UserGroups;
 			sourceTree = "<group>";
@@ -254,7 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				55023D5F254FF9FB001EDF4D /* StorageService */,
-				55A864F125504F250052B51D /* NetworService */,
+				55A864F125504F250052B51D /* NetworkService */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -278,17 +306,18 @@
 			path = UserFriends;
 			sourceTree = "<group>";
 		};
-		55A864F125504F250052B51D /* NetworService */ = {
+		55A864F125504F250052B51D /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
 				55E4B2AA253F107000BB23AF /* NetworkService.swift */,
+				553C9D752569642B00DB8981 /* GroupsNetworkResponse.swift */,
 				55E4B2B0253F1B4200BB23AF /* NetworkResponse.swift */,
 				55A8C7FD253F5B4000D39BF1 /* NewsFeedNetworkResponse.swift */,
 				5516C6CA25545A4700586D6D /* UserInfoNetworkResponse.swift */,
 				55E4B2AC253F10A200BB23AF /* Session.swift */,
 				55E4B2AE253F116400BB23AF /* APIConstants.swift */,
 			);
-			path = NetworService;
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 		55A864F225504F790052B51D /* NewsFeed */ = {
@@ -436,31 +465,38 @@
 			files = (
 				559A31F525138EB6003DFB9E /* UserFriendsTableViewCell.swift in Sources */,
 				55023D6C254FF9FB001EDF4D /* LocalPhoto+CoreDataClass.swift in Sources */,
-				55FF5F2625177B3D00DE40BC /* UserGroupsViewController.swift in Sources */,
 				559A31F725138FE1003DFB9E /* RoundCornersImageView.swift in Sources */,
+				551A3DA225669D960027A529 /* MUser.swift in Sources */,
 				5574E8AA2517BE6800CA93A6 /* NewsFeedViewController.swift in Sources */,
 				5516C6CB25545A4700586D6D /* UserInfoNetworkResponse.swift in Sources */,
 				5555E940250CCB80007FF8F1 /* AppDelegate.swift in Sources */,
 				55023D68254FF9FB001EDF4D /* CoreDataStack.swift in Sources */,
+				553C9D712569389300DB8981 /* UserGroupsViewController.swift in Sources */,
 				5549EBB52516811600333B59 /* PostFullSizeViewController.swift in Sources */,
 				55023D69254FF9FB001EDF4D /* CoreDataModel.xcdatamodeld in Sources */,
 				55E4B2AF253F116400BB23AF /* APIConstants.swift in Sources */,
+				553C9D722569389700DB8981 /* UserGroupsHeaderView.swift in Sources */,
 				55E4B2B3253F236000BB23AF /* LoginFormController.swift in Sources */,
 				55C7684C254AF9B000ECC4F1 /* UIImageGifExtension.swift in Sources */,
 				556D36922518EC3D00A4E28D /* LikeBarView.swift in Sources */,
 				555245F62514DE0E0022EFB2 /* LikeButton.swift in Sources */,
+				553C9D762569642B00DB8981 /* GroupsNetworkResponse.swift in Sources */,
 				554B1F902551AF5D0015CEE0 /* AccountHeaderView.swift in Sources */,
 				55CD4586254ED15F00A57BDA /* UILabelNumberOfRowsCount.swift in Sources */,
 				5574E8AC2517CE8600CA93A6 /* NewsFeedTableViewCell.swift in Sources */,
+				551A3D9E25669D5C0027A529 /* ChatViewController.swift in Sources */,
 				55E4B2B1253F1B4200BB23AF /* NetworkResponse.swift in Sources */,
 				55B78E3425194C1400684388 /* PhotoCollageCollectionViewCell.swift in Sources */,
 				55023D6A254FF9FB001EDF4D /* StorageService.swift in Sources */,
 				5574E8A625178FF600CA93A6 /* UIViewConstraintsExtension.swift in Sources */,
 				55C36E4D2518102F005F959C /* PhotoCollageView.swift in Sources */,
 				55E4B2AD253F10A200BB23AF /* Session.swift in Sources */,
+				551A3DA025669D780027A529 /* MChat.swift in Sources */,
 				55FF5F24251773F900DE40BC /* MainTabBarViewController.swift in Sources */,
+				551A3DA425669DB30027A529 /* MMessage.swift in Sources */,
 				55023D6B254FF9FB001EDF4D /* LocalUser+CoreDataProperties.swift in Sources */,
 				55023D6D254FF9FB001EDF4D /* LocalPhoto+CoreDataProperties.swift in Sources */,
+				553C9D742569391400DB8981 /* UserGroupsTableViewCell.swift in Sources */,
 				5555E942250CCB80007FF8F1 /* SceneDelegate.swift in Sources */,
 				555245F22514DDBA0022EFB2 /* FriendPostsViewController.swift in Sources */,
 				556810E2250D0AF800534D23 /* UserFriendsViewController.swift in Sources */,
