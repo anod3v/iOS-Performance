@@ -90,6 +90,10 @@ class FriendPostsCollectionViewCell: UICollectionViewCell {
 //            //perform actions if needed
 //        }
         
+        PhotoService.shared.photo(url: model.photo604) { image in
+            self.friendPhotoImage.image = image
+        }
+        
 //        if model.photoUrls.count > 1 {
 //            multiplePicSign.isHidden = false
 //        } else {
