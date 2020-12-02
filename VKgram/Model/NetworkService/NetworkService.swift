@@ -243,6 +243,59 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         }
     }
     
+    func getNewsFeedItemsWithStartTime(startFrom: String) -> Promise<(ItemWrappedResponse, ProfileWrappedResponse, GroupWrappedResponse)>? {
+        
+        guard let token = Session.shared.token else { return nil } // TODO: сделать через catch и убрать nil
+        
+        let configuration = URLSessionConfiguration.default
+        
+        let session =  URLSession(configuration: configuration)
+        
+        var urlConstructor = URLComponents()
+        urlConstructor.scheme = API.scheme
+        urlConstructor.host = API.host
+        urlConstructor.path = API.getNewsFeed
+        urlConstructor.queryItems = [
+            URLQueryItem(name: "filters", value: "post, photo"),
+            URLQueryItem(name: "start_from", value: "\(startFrom)"),
+            URLQueryItem(name: "count", value: "50"),
+            URLQueryItem(name: "access_token", value: "\(token)"),
+            URLQueryItem(name: "v", value: API.version)
+        ]
+        
+        func parseItem(data: Data) -> Promise<ItemWrappedResponse> {
+            return Promise { seal in
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(ItemWrappedResponse.self, from: data)
+                seal.resolve(.fulfilled(result))
+            }
+        }
+        
+        func parseProfile(data: Data) -> Promise<ProfileWrappedResponse> {
+            return Promise { seal in
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(ProfileWrappedResponse.self, from: data)
+                seal.resolve(.fulfilled(result))
+            }
+        }
+        
+        func parseGroup(data: Data) -> Promise<GroupWrappedResponse> {
+            return Promise { seal in
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(GroupWrappedResponse.self, from: data)
+                seal.resolve(.fulfilled(result))
+            }
+        }
+        
+        return firstly {
+            
+            URLSession.shared.dataTask(.promise, with: urlConstructor.url!)
+            
+        }.then (on: DispatchQueue.global(qos: .background)) { response in
+            when(fulfilled:parseItem(data: response.data), parseProfile(data: response.data), parseGroup(data: response.data))
+        }
+    }
+    
 }
 
 
