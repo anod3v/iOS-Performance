@@ -46,13 +46,25 @@ struct PhotoResponse: Codable {
 }
 
 // MARK: - Item
-struct Photo: Codable {
+struct Photo: Codable, PhotoInterface {
     let albumID, date, id, ownerID: Int
     let hasTags: Bool
     let height: Int
+    let photo1280: String?
     let photo130, photo604, photo75, photo807: String
+    let postID: Int?
     let text: String
     let width: Int
+    let likes: PhotoLikes
+    let reposts, comments: PhotoComments
+    let canComment: Int
+    let tags: PhotoComments
+    let photo2560: String?
+    
+    var bigPhoto: String { return photo604 }
+    var smallPhoto: String { return photo130 }
+    var repostsCount: String { return String(describing: reposts.count) }
+    var likesCount: String { return String(describing: likes.count) }
 
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"
@@ -60,11 +72,31 @@ struct Photo: Codable {
         case ownerID = "owner_id"
         case hasTags = "has_tags"
         case height
+        case photo1280 = "photo_1280"
         case photo130 = "photo_130"
         case photo604 = "photo_604"
         case photo75 = "photo_75"
         case photo807 = "photo_807"
-        case text, width
+        case postID = "post_id"
+        case text, width, likes, reposts, comments
+        case canComment = "can_comment"
+        case tags
+        case photo2560 = "photo_2560"
+    }
+}
+
+// MARK: - Comments
+struct PhotoComments: Codable {
+    let count: Int
+}
+
+// MARK: - Likes
+struct PhotoLikes: Codable {
+    let userLikes, count: Int
+
+    enum CodingKeys: String, CodingKey {
+        case userLikes = "user_likes"
+        case count
     }
 }
 

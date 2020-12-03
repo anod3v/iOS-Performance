@@ -95,6 +95,13 @@ class LikeBarView: UIView {
     
     //-------------
     
+    var theme: Theme = .black
+    
+    enum Theme {
+           case black
+           case white
+       }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(likeButton)
@@ -108,8 +115,15 @@ class LikeBarView: UIView {
 
     }
     
+    convenience init(theme: Theme) {
+        self.init()
+        self.theme = theme
+        setupTheme()
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupTheme()
     }
     
     func setupConstraints() {
@@ -151,6 +165,35 @@ class LikeBarView: UIView {
             
         ])
         
+    }
+    
+    func setupTheme() {
+        switch theme {
+            
+        case .black:
+            likeButton.strokeColor = .black
+            likeCounterLabel.textColor = .black
+            viewsCounterLabel.textColor = .black
+            likeTextLabel.textColor = .black
+            let commentButtonBlackImage = UIImage(named: "comment")
+            commentButton.setImage(commentButtonBlackImage, for: .normal)
+            let shareButtonBlackImage = UIImage(named: "plane")
+            shareButton.setImage(shareButtonBlackImage, for: .normal)
+            let viewsViewBlackImage = UIImage(named: "views")
+            viewsView.image = viewsViewBlackImage
+            
+        case .white:
+            likeButton.strokeColor = .white
+            likeCounterLabel.textColor = .white
+            viewsCounterLabel.textColor = .white
+            likeTextLabel.textColor = .white
+            let commentButtonWhiteImage = UIImage(named: "commentWhite")
+            commentButton.setImage(commentButtonWhiteImage, for: .normal)
+            let shareButtonWhiteImage = UIImage(named: "planeWhite")
+            shareButton.setImage(shareButtonWhiteImage, for: .normal)
+            let viewsViewWhiteImage = UIImage(named: "viewsWhite")
+            viewsView.image = viewsViewWhiteImage
+        }
     }
     
     @objc func likeButtonPressed(_ sender: Any) {

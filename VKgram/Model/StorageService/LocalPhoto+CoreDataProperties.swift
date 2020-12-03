@@ -29,5 +29,14 @@ extension LocalPhoto {
     @NSManaged public var photo807: String
     @NSManaged public var text: String
     @NSManaged public var width: Int16
-
+    //---- new
+    @NSManaged public var photo1280: String
+    @NSManaged public var postID: Int64
+    @NSManaged public var likesUserLikes: Int64
+    @NSManaged public var likesCount: Int64
+    @NSManaged public var repostsPhotoComments: Int64
+    @NSManaged public var commentsPhotoComments: Int64
+    @NSManaged public var canComment: Int64
+    @NSManaged public var tagsPhotoComments: Int64
+    @NSManaged public var photo2560: String
 }

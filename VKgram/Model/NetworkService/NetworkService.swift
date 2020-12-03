@@ -111,6 +111,7 @@ class NetworkService { // TODO: to separate NetworkService and DataFetcher
         urlConstructor.queryItems = [
             URLQueryItem(name: "owner_id", value: "\(userId)"),
             URLQueryItem(name: "album_id", value: "wall"),
+            URLQueryItem(name: "extended", value: "1"),
             URLQueryItem(name: "count", value: "1000"),
             URLQueryItem(name: "access_token", value: "\(token)"),
             URLQueryItem(name: "v", value: API.version)

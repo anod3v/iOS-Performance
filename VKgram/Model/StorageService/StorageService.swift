@@ -109,6 +109,16 @@ class StorageService {
             localPhoto.setValue(photo.photo807, forKey: "photo807")
             localPhoto.setValue(photo.text, forKey: "text")
             localPhoto.setValue(photo.width, forKey: "width")
+            
+            localPhoto.setValue(photo.photo1280, forKey: "photo1280")
+            localPhoto.setValue(photo.postID, forKey: "postID")
+            localPhoto.setValue(photo.likes.userLikes, forKey: "likesUserLikes")
+            localPhoto.setValue(photo.likes.count, forKey: "likesCount")
+            localPhoto.setValue(photo.reposts.count, forKey: "repostsPhotoComments")
+            localPhoto.setValue(photo.comments.count, forKey: "commentsPhotoComments")
+            localPhoto.setValue(photo.canComment, forKey: "canComment")
+            localPhoto.setValue(photo.tags.count, forKey: "tagsPhotoComments")
+            localPhoto.setValue(photo.photo2560, forKey: "photo2560")
         }
         coreDataStack.saveContext()
     }
@@ -121,18 +131,39 @@ class StorageService {
         localPhotos = ( try? context.fetch(fetchRequest)) as! [LocalPhoto]
         //        let localPhotos = (try? context.fetch(LocalPhoto.fetchRequest()) as? [LocalPhoto] ?? [])
         for localPhoto in localPhotos {
+//            let photo = Photo(albumID: Int(localPhoto.albumID),
+//                              date: Int(localPhoto.date),
+//                              id: Int(localPhoto.id),
+//                              ownerID: Int(localPhoto.ownerID),
+//                              hasTags: localPhoto.hasTags,
+//                              height: Int(localPhoto.height),
+//                              photo130: localPhoto.photo130,
+//                              photo604: localPhoto.photo604,
+//                              photo75: localPhoto.photo75,
+//                              photo807: localPhoto.photo807,
+//                              text: localPhoto.text,
+//                              width: Int(localPhoto.width))
             let photo = Photo(albumID: Int(localPhoto.albumID),
                               date: Int(localPhoto.date),
                               id: Int(localPhoto.id),
                               ownerID: Int(localPhoto.ownerID),
                               hasTags: localPhoto.hasTags,
                               height: Int(localPhoto.height),
+                              photo1280: localPhoto.photo1280,
                               photo130: localPhoto.photo130,
                               photo604: localPhoto.photo604,
                               photo75: localPhoto.photo75,
                               photo807: localPhoto.photo807,
+                              postID: Int(localPhoto.postID),
                               text: localPhoto.text,
-                              width: Int(localPhoto.width))
+                              width: Int(localPhoto.width),
+                              likes: PhotoLikes(userLikes: Int(localPhoto.likesUserLikes), count: Int(localPhoto.likesCount)),
+                              reposts: PhotoComments(count: Int(localPhoto.repostsPhotoComments)),
+                              comments: PhotoComments(count: Int(localPhoto.commentsPhotoComments)),
+                              canComment: Int(localPhoto.canComment),
+                              tags: PhotoComments(count: Int(localPhoto.tagsPhotoComments)),
+                              photo2560: localPhoto.photo2560)
+//            print("the photo is loaded with likes no:", photo.likesCount)
             photos.append(photo)
         }
         return photos

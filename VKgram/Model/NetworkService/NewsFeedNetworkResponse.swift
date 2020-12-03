@@ -117,6 +117,7 @@ struct Attachment: Codable {
 
 // MARK: - AttachmentPhoto
 struct AttachmentPhoto: Codable {
+    
     let albumID, date, id, ownerID: Int?
     let hasTags: Bool?
     let accessKey: String?
@@ -127,8 +128,6 @@ struct AttachmentPhoto: Codable {
     let postID: Int?
     let text: String?
     let userID, width: Int?
-    
-    var postPhoto: String { return photo604!}
 
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"
@@ -322,4 +321,11 @@ protocol ProfileInterface {
     var id: Int { get }
     var name: String { get }
     var photo: String { get }
+}
+
+protocol PhotoInterface {
+    var bigPhoto: String { get }
+    var smallPhoto: String { get }
+    var repostsCount: String { get }
+    var likesCount: String { get }
 }

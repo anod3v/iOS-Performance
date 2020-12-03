@@ -61,10 +61,17 @@ class FriendPostsViewController: UIViewController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! FriendPostsCollectionViewCell
-//        let postFullSizeViewController = PostFullSizeViewController()
-//        postFullSizeViewController.selectedPost = cell.selectedPost
-//        postFullSizeViewController.modalPresentationStyle = .fullScreen
-//        self.present(postFullSizeViewController, animated: true, completion: nil)
+        let postFullSizeViewController = PostFullSizeViewController()
+        postFullSizeViewController.selectedPostIndex = indexPath.row
+
+        guard photos.count > 0 else { return }
+        for photo in photos {
+            let photoRepresentable = PhotoRepresentable(photo: photo.bigPhoto, likes: photo.likesCount, text: photo.text)
+            postFullSizeViewController.photos?.append(photoRepresentable)
+        }
+        
+        postFullSizeViewController.modalPresentationStyle = .fullScreen
+        self.show(postFullSizeViewController, sender: nil)
     }
     
 }
